@@ -1,0 +1,13 @@
+{
+  "topics" : {
+    "ml-input" : "ml-input",
+    "ml-output" : "ml-output"
+  },
+  "apis" : {
+    "model" : {
+      "base" : "http://localhost",
+      "port" : 5000,
+      "route" : "score/api"
+    }
+  }
+}

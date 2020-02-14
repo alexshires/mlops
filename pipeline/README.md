@@ -10,6 +10,9 @@ https://medium.com/@Ankitthakur/apache-kafka-installation-on-mac-using-homebrew-
 
 1. `run_kafka.sh`
 2. `kafka_commands.sh`
+3. `python producer.py`
+4. `python mlengine.py`
+5. `python consumer.py`
 
 Producer console:
 ```
