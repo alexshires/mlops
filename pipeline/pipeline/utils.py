@@ -6,6 +6,9 @@ import json
 import logging
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=10)
+logging.getLogger('kafka').setLevel(20)
+
 
 
 def get_pipeline_config(filename: str = "pipeline.json") -> Dict:
@@ -33,7 +36,11 @@ def construct_api(api_dict):
     :param api_dict:
     :return:
     """
-    url = api_dict["url"] if api_dict["url"] else "localhost"
-    port = api_dict["port"] if api_dict["port"] else 80
-    route = api_dict["route"] if api_dict["route"] else ""
-    return f"http://{url}:{port}/{route}"
+    try:
+        url = api_dict["url"] if api_dict["url"] else "localhost"
+        port = api_dict["port"] if api_dict["port"] else 80
+        route = api_dict["route"] if api_dict["route"] else ""
+        return f"http://{url}:{port}/{route}"
+    except Exception as e:
+        logger.error("URL construction failed from %s", api_dict)
+        return None

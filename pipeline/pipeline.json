@@ -5,7 +5,7 @@
   },
   "apis" : {
     "model" : {
-      "base" : "http://localhost",
+      "url" : "localhost",
       "port" : 5000,
       "route" : "score/api"
     }

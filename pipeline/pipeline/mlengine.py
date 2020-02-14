@@ -29,14 +29,15 @@ def score_data(data_point):
     return data_result
 
 
-if __name__ == "__main__":
-    logger.debug("running ML engine")
+def consume_and_produce():
     # set up consumer
     input_topic = config["topics"]["ml-input"]
     output_topic = config["topics"]["ml-output"]
-    producer = KafkaProducer(retries=5)
+    producer = KafkaProducer(retries=5,
+                             value_serializer=lambda m: json.dumps(m).encode("ascii")
+                             )
     consumer = KafkaConsumer(
-        topic,
+        input_topic,
         bootstrap_servers=["localhost:9092"],
         value_deserializer=lambda m: json.loads(m.decode("ascii")),
     )
@@ -53,6 +54,7 @@ if __name__ == "__main__":
         data_result = score_data(data_point=message.value)
         # send downstream (1-1 logic here)
         try:
+            logger.info("sending: %s", data_result)
             future = producer.send(output_topic, data_result)
-        except:  # TODO: improve
-            logger.error("data send failed: %s, %s", output_topic, data_result)
+        except Exception as e:  # TODO: improve
+            logger.error("%s, data send failed: %s, %s", e, output_topic, data_result)
